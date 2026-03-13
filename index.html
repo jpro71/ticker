@@ -10,7 +10,7 @@ margin:0;
 background:black;
 color:white;
 font-family:Arial, Helvetica, sans-serif;
-font-size:60px;
+font-size:36px;
 overflow:hidden;
 }
 
@@ -62,46 +62,46 @@ padding:0 40px;
 <script>
 
 const symbols = [
-"^DJI","^GSPC","^IXIC",
-"AAPL","NVDA","TSLA","AMZN","MSFT","META","NFLX","GOOGL",
-"COIN","SOFI","SNDK","PYPL",
-"CRM","BABA","OXY","DELL",
-"BTC-USD","ETH-USD","GC=F","CL=F"
+"dji","spx","nasdaq",
+"aapl","nvda","tsla","amzn","msft","meta","nflx","googl",
+"coin","sofi","sndk","pypl",
+"crm","baba","oxy","dell"
 ];
 
 function loadTicker(){
 
-const url = "https://query1.finance.yahoo.com/v7/finance/quote?symbols=" + symbols.join(",");
+let requests = symbols.map(symbol =>
+fetch(`https://stooq.com/q/l/?s=${symbol}&f=sd2t2ohlcv&h&e=csv`)
+.then(r => r.text())
+);
 
-fetch(url)
-.then(response => response.json())
-.then(data => {
+Promise.all(requests).then(results => {
 
 let html = "";
 
-data.quoteResponse.result.forEach(stock => {
+results.forEach(row => {
 
-let changeClass = stock.regularMarketChange >= 0 ? "up" : "down";
-let arrow = stock.regularMarketChange >= 0 ? "▲" : "▼";
+let parts = row.split("\n")[1].split(",");
 
-html += `<span class="${changeClass}">
-${stock.symbol} ${arrow} ${stock.regularMarketPrice.toFixed(2)}
-</span><span class="separator">|</span>`;
+let symbol = parts[0].toUpperCase();
+let price = parts[6];
+
+if(!price || price==="N/D") return;
+
+html += `<span class="up">${symbol} ${price}</span><span class="separator">|</span>`;
 
 });
 
 document.getElementById("ticker").innerHTML = html;
 
-})
-.catch(() => {
-document.getElementById("ticker").innerHTML = "Market data unavailable";
 });
 
 }
 
 loadTicker();
 
-setInterval(loadTicker,300000);
+/* refresh every 10 minutes */
+setInterval(loadTicker,600000);
 
 </script>
 
