@@ -3,23 +3,27 @@
 <head>
 <meta charset="utf-8">
 <style>
-body{
-margin:0;
-background:black;
-overflow:hidden;
+body {
+  margin:0;
+  background:black;
+}
+.ticker-container {
+  width:100%;
+  height:60px;
 }
 </style>
 </head>
 
 <body>
 
-<script src="https://widgets.tradingview-widget.com/w/en/tv-ticker-tape.js"></script>
-
-<tv-ticker-tape
-symbols="FOREXCOM:SPXUSD,FOREXCOM:NSXUSD,FOREXCOM:DJI,BITSTAMP:BTCUSD,BITSTAMP:ETHUSD,CMCMARKETS:GOLD,NASDAQ:AAPL,NASDAQ:NVDA,NASDAQ:TSLA,NASDAQ:AMZN,NASDAQ:MSFT,NASDAQ:META,NASDAQ:NFLX,NASDAQ:GOOGL,NASDAQ:COIN"
-item-size="compact"
-style="width:100%;height:60px">
-</tv-ticker-tape>
+<div class="ticker-container">
+  <script src="https://widgets.tradingview-widget.com/w/en/tv-ticker-tape.js"></script>
+  <tv-ticker-tape
+    symbols="FOREXCOM:SPXUSD,FOREXCOM:NSXUSD,FOREXCOM:DJI,BITSTAMP:BTCUSD,BITSTAMP:ETHUSD,CMCMARKETS:GOLD,NASDAQ:AAPL,NASDAQ:NVDA,NASDAQ:TSLA,NASDAQ:AMZN,NASDAQ:MSFT,NASDAQ:META,NASDAQ:NFLX,NASDAQ:GOOGL,NASDAQ:COIN"
+    item-size="compact"
+    display-mode="adaptive"
+  ></tv-ticker-tape>
+</div>
 
 </body>
 </html>
