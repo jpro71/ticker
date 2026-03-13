@@ -1,8 +1,110 @@
 <!DOCTYPE html>
 <html>
-<body style="background:black;color:white;font-size:40px;">
+<head>
+<meta charset="utf-8">
+
+<style>
+
+body{
+margin:0;
+background:black;
+color:white;
+font-family:Arial, Helvetica, sans-serif;
+font-size:60px;
+overflow:hidden;
+}
+
+#ticker-wrap{
+position:relative;
+width:100%;
+overflow:hidden;
+height:90px;
+}
+
+#ticker{
+display:inline-block;
+white-space:nowrap;
+padding-left:100%;
+animation:ticker 30s linear infinite;
+letter-spacing:1px;
+}
+
+@keyframes ticker{
+0% { transform:translateX(0); }
+100% { transform:translateX(-100%); }
+}
+
+.up{
+color:#00ff7f;
+font-weight:bold;
+}
+
+.down{
+color:#ff4d4d;
+font-weight:bold;
+}
+
+.separator{
+color:#888;
+padding:0 40px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="ticker-wrap">
+<div id="ticker">Loading market data...</div>
+</div>
+
 <script>
-document.write("JavaScript working");
+
+var symbols = "AAPL,NVDA,TSLA,AMZN,MSFT,META,NFLX,GOOGL,COIN,SOFI,PYPL,CRM,BABA,OXY,DELL";
+
+function loadTicker(){
+
+var xhr = new XMLHttpRequest();
+xhr.open("GET","https://query1.finance.yahoo.com/v7/finance/quote?symbols="+symbols,true);
+
+xhr.onreadystatechange=function(){
+
+if(xhr.readyState===4 && xhr.status===200){
+
+var data = JSON.parse(xhr.responseText);
+var html="";
+
+for(var i=0;i<data.quoteResponse.result.length;i++){
+
+var stock=data.quoteResponse.result[i];
+
+var change=stock.regularMarketChange;
+var price=stock.regularMarketPrice;
+
+var cls = change>=0 ? "up" : "down";
+var arrow = change>=0 ? "▲" : "▼";
+
+html += '<span class="'+cls+'">'+stock.symbol+' '+arrow+' '+price.toFixed(2)+'</span>';
+html += '<span class="separator">|</span>';
+
+}
+
+document.getElementById("ticker").innerHTML=html;
+
+}
+
+};
+
+xhr.send();
+
+}
+
+loadTicker();
+
+setInterval(loadTicker,300000);
+
 </script>
+
 </body>
 </html>
