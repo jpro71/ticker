@@ -1,31 +1,65 @@
-name: Update Market Ticker
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Market Ticker</title>
 
-on:
-  schedule:
-    - cron: "*/10 * * * *"
-  workflow_dispatch:
+<style>
+body{
+margin:0;
+background:black;
+overflow:hidden;
+}
 
-jobs:
-  update:
-    runs-on: ubuntu-latest
+.ticker{
+position:fixed;
+bottom:0;
+width:100%;
+}
+</style>
 
-    steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+</head>
 
-      - name: Fetch market data
-        run: |
-          curl -s "https://query1.finance.yahoo.com/v7/finance/quote?symbols=%5EDJI,%5EGSPC,%5EIXIC,BTC-USD,GC=F,CL=F,AAPL,NVDA,TSLA,AMZN,MSFT,META,NFLX,GOOGL,COIN,SOFI,PYPL,CRM,BABA,OXY,DELL" > data.json
+<body>
 
-      - name: Build ticker
-        run: |
-          TICKER=$(jq -r '.quoteResponse.result[] | "\(.symbol) \(.regularMarketPrice)"' data.json | paste -sd " | " -)
-          sed -i "s|Loading market data...|$TICKER|g" index.html
+<div class="tradingview-widget-container ticker">
+  <div class="tradingview-widget-container__widget"></div>
+</div>
 
-      - name: Commit changes
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "actions@github.com"
-          git add index.html
-          git commit -m "Update ticker data" || echo "No changes"
-          git push
+<script src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+{
+  "symbols": [
+    {"proName": "FOREXCOM:SPXUSD", "title": "S&P 500"},
+    {"proName": "FOREXCOM:NSXUSD", "title": "NASDAQ"},
+    {"proName": "FOREXCOM:DJI", "title": "DOW"},
+    {"proName": "BITSTAMP:BTCUSD", "title": "BITCOIN"},
+    {"proName": "BITSTAMP:ETHUSD", "title": "ETH"},
+    {"proName": "CMCMARKETS:GOLD", "title": "GOLD"},
+    {"proName": "NASDAQ:AAPL", "title": "AAPL"},
+    {"proName": "NASDAQ:NVDA", "title": "NVDA"},
+    {"proName": "NASDAQ:TSLA", "title": "TSLA"},
+    {"proName": "NASDAQ:AMZN", "title": "AMZN"},
+    {"proName": "NASDAQ:MSFT", "title": "MSFT"},
+    {"proName": "NASDAQ:META", "title": "META"},
+    {"proName": "NASDAQ:NFLX", "title": "NFLX"},
+    {"proName": "NASDAQ:GOOGL", "title": "GOOGL"},
+    {"proName": "NASDAQ:COIN", "title": "COIN"},
+    {"proName": "MCX:CRUDEOIL1!", "title": "OIL"},
+    {"proName": "NASDAQ:SOFI", "title": "SOFI"},
+    {"proName": "NASDAQ:SNDK", "title": "SNDK"},
+    {"proName": "NASDAQ:PYPL", "title": "PYPL"},
+    {"proName": "NYSE:CRM", "title": "CRM"},
+    {"proName": "NYSE:BABA", "title": "BABA"},
+    {"proName": "NYSE:OXY", "title": "OXY"},
+    {"proName": "NYSE:DELL", "title": "DELL"}
+  ],
+  "showSymbolLogo": false,
+  "colorTheme": "dark",
+  "isTransparent": false,
+  "displayMode": "compact",
+  "locale": "en"
+}
+</script>
+
+</body>
+</html>
