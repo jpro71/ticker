@@ -2,31 +2,56 @@
 <html>
 <head>
 <meta charset="utf-8">
-
 <style>
 body{
-    margin:0;
-    background:black;
-    overflow:hidden;
-}
-
-tv-ticker-tape{
-    width:100%;
-    height:60px;
+margin:0;
+background:black;
+overflow:hidden;
 }
 </style>
-
 </head>
 
 <body>
 
-<script type="module" src="https://widgets.tradingview-widget.com/w/en/tv-ticker-tape.js"></script>
+<div class="tradingview-widget-container">
+<div class="tradingview-widget-container__widget"></div>
 
-<tv-ticker-tape
-symbols="FOREXCOM:SPXUSD,FOREXCOM:NSXUSD,FOREXCOM:DJI,BITSTAMP:BTCUSD,BITSTAMP:ETHUSD,CMCMARKETS:GOLD,NASDAQ:AAPL,NASDAQ:NVDA,NASDAQ:TSLA,NASDAQ:AMZN,NASDAQ:MSFT,NASDAQ:META,NASDAQ:NFLX,NASDAQ:GOOGL,NASDAQ:COIN,MCX:CRUDEOIL1!,NASDAQ:SOFI,NASDAQ:SNDK,NASDAQ:PYPL,NYSE:CRM,NYSE:BABA,NYSE:OXY,NYSE:DELL"
-item-size="compact"
-style="width:100%">
-</tv-ticker-tape>
+<script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js">
+{
+"symbols": [
+{"proName":"FOREXCOM:SPXUSD","title":"S&P 500"},
+{"proName":"FOREXCOM:NSXUSD","title":"NASDAQ"},
+{"proName":"FOREXCOM:DJI","title":"Dow"},
+{"proName":"BITSTAMP:BTCUSD","title":"Bitcoin"},
+{"proName":"BITSTAMP:ETHUSD","title":"Ethereum"},
+{"proName":"CMCMARKETS:GOLD","title":"Gold"},
+{"proName":"NASDAQ:AAPL","title":"Apple"},
+{"proName":"NASDAQ:NVDA","title":"Nvidia"},
+{"proName":"NASDAQ:TSLA","title":"Tesla"},
+{"proName":"NASDAQ:AMZN","title":"Amazon"},
+{"proName":"NASDAQ:MSFT","title":"Microsoft"},
+{"proName":"NASDAQ:META","title":"Meta"},
+{"proName":"NASDAQ:NFLX","title":"Netflix"},
+{"proName":"NASDAQ:GOOGL","title":"Google"},
+{"proName":"NASDAQ:COIN","title":"Coinbase"},
+{"proName":"MCX:CRUDEOIL1!","title":"Oil"},
+{"proName":"NASDAQ:SOFI","title":"SoFi"},
+{"proName":"NASDAQ:SNDK","title":"Sandisk"},
+{"proName":"NASDAQ:PYPL","title":"PayPal"},
+{"proName":"NYSE:CRM","title":"Salesforce"},
+{"proName":"NYSE:BABA","title":"Alibaba"},
+{"proName":"NYSE:OXY","title":"Occidental"},
+{"proName":"NYSE:DELL","title":"Dell"}
+],
+"showSymbolLogo": false,
+"colorTheme": "dark",
+"isTransparent": false,
+"displayMode": "adaptive",
+"locale": "en"
+}
+</script>
+
+</div>
 
 </body>
 </html>
