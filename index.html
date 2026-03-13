@@ -14,7 +14,6 @@ font-size:60px;
 overflow:hidden;
 }
 
-/* container that hides overflow */
 #ticker-wrap{
 position:relative;
 width:100%;
@@ -22,7 +21,6 @@ overflow:hidden;
 height:90px;
 }
 
-/* scrolling ticker */
 #ticker{
 display:inline-block;
 white-space:nowrap;
@@ -31,49 +29,24 @@ animation:ticker 30s linear infinite;
 letter-spacing:1px;
 }
 
-/* scrolling animation */
 @keyframes ticker{
 0% { transform:translateX(0); }
 100% { transform:translateX(-100%); }
 }
 
-/* gain color */
 .up{
 color:#00ff7f;
 font-weight:bold;
 }
 
-/* loss color */
 .down{
 color:#ff4d4d;
 font-weight:bold;
 }
 
-/* spacing between items */
 .separator{
 color:#888;
 padding:0 40px;
-}
-
-/* gradient edges for TV style */
-body::before,
-body::after{
-content:"";
-position:absolute;
-top:0;
-width:80px;
-height:100%;
-z-index:2;
-}
-
-body::before{
-left:0;
-background:linear-gradient(to right, black, transparent);
-}
-
-body::after{
-right:0;
-background:linear-gradient(to left, black, transparent);
 }
 
 </style>
@@ -83,47 +56,54 @@ background:linear-gradient(to left, black, transparent);
 <body>
 
 <div id="ticker-wrap">
-
-<div id="ticker">
-
-<span class="up">S&P 500 ▲ 5230</span>
-<span class="separator">|</span>
-
-<span class="up">NASDAQ ▲ 16350</span>
-<span class="separator">|</span>
-
-<span class="up">DOW ▲ 39210</span>
-<span class="separator">|</span>
-
-<span class="up">AAPL ▲ 182.33</span>
-<span class="separator">|</span>
-
-<span class="up">NVDA ▲ 876.21</span>
-<span class="separator">|</span>
-
-<span class="down">TSLA ▼ 174.02</span>
-<span class="separator">|</span>
-
-<span class="up">AMZN ▲ 184.15</span>
-<span class="separator">|</span>
-
-<span class="up">MSFT ▲ 420.87</span>
-<span class="separator">|</span>
-
-<span class="up">META ▲ 505.22</span>
-<span class="separator">|</span>
-
-<span class="up">GOOGL ▲ 176.55</span>
-<span class="separator">|</span>
-
-<span class="up">NFLX ▲ 640.10</span>
-<span class="separator">|</span>
-
-<span class="up">COIN ▲ 238.12</span>
-
+<div id="ticker">Loading market data...</div>
 </div>
 
-</div>
+<script>
+
+const symbols = [
+"^DJI","^GSPC","^IXIC",
+"AAPL","NVDA","TSLA","AMZN","MSFT","META","NFLX","GOOGL",
+"COIN","SOFI","SNDK","PYPL",
+"CRM","BABA","OXY","DELL",
+"BTC-USD","ETH-USD","GC=F","CL=F"
+];
+
+function loadTicker(){
+
+const url = "https://query1.finance.yahoo.com/v7/finance/quote?symbols=" + symbols.join(",");
+
+fetch(url)
+.then(response => response.json())
+.then(data => {
+
+let html = "";
+
+data.quoteResponse.result.forEach(stock => {
+
+let changeClass = stock.regularMarketChange >= 0 ? "up" : "down";
+let arrow = stock.regularMarketChange >= 0 ? "▲" : "▼";
+
+html += `<span class="${changeClass}">
+${stock.symbol} ${arrow} ${stock.regularMarketPrice.toFixed(2)}
+</span><span class="separator">|</span>`;
+
+});
+
+document.getElementById("ticker").innerHTML = html;
+
+})
+.catch(() => {
+document.getElementById("ticker").innerHTML = "Market data unavailable";
+});
+
+}
+
+loadTicker();
+
+setInterval(loadTicker,300000);
+
+</script>
 
 </body>
 </html>
