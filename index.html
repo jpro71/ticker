@@ -2,9 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-
 <style>
-
 body{
 margin:0;
 background:black;
@@ -14,96 +12,28 @@ font-size:36px;
 overflow:hidden;
 }
 
-#ticker-wrap{
-position:relative;
-width:100%;
-overflow:hidden;
-height:90px;
-}
-
 #ticker{
-display:inline-block;
 white-space:nowrap;
-padding-left:100%;
+position:absolute;
+left:100%;
 animation:ticker 30s linear infinite;
-letter-spacing:1px;
 }
 
 @keyframes ticker{
-0% { transform:translateX(0); }
-100% { transform:translateX(-100%); }
+0% { left:100%; }
+100% { left:-100%; }
 }
-
-.up{
-color:#00ff7f;
-font-weight:bold;
-}
-
-.down{
-color:#ff4d4d;
-font-weight:bold;
-}
-
-.separator{
-color:#888;
-padding:0 40px;
-}
-
 </style>
-
 </head>
 
 <body>
 
-<div id="ticker-wrap">
-<div id="ticker">Loading market data...</div>
+<div id="ticker">
+Loading market data...
 </div>
 
-<script>
-
-const symbols = [
-"dji","spx","nasdaq",
-"aapl","nvda","tsla","amzn","msft","meta","nflx","googl",
-"coin","sofi","sndk","pypl",
-"crm","baba","oxy","dell"
-];
-
-function loadTicker(){
-
-let requests = symbols.map(symbol =>
-fetch(`https://stooq.com/q/l/?s=${symbol}&f=sd2t2ohlcv&h&e=csv`)
-.then(r => r.text())
-);
-
-Promise.all(requests).then(results => {
-
-let html = "";
-
-results.forEach(row => {
-
-let parts = row.split("\n")[1].split(",");
-
-let symbol = parts[0].toUpperCase();
-let price = parts[6];
-
-if(!price || price==="N/D") return;
-
-html += `<span class="up">${symbol} ${price}</span><span class="separator">|</span>`;
-
-});
-
-document.getElementById("ticker").innerHTML = html;
-
-});
-
-}
-
-loadTicker();
-
-/* refresh every 10 minutes */
-setInterval(loadTicker,600000);
-
-</script>
+<iframe src="https://financialmodelingprep.com/api/v3/quotes/index?apikey=demo"
+style="display:none;"></iframe>
 
 </body>
 </html>
