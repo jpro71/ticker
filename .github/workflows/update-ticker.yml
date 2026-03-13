@@ -19,24 +19,13 @@ jobs:
 
       - name: Build ticker
         run: |
-          python3 <<EOF
-import json
-data=json.load(open("data.json"))
-items=[]
-for r in data["quoteResponse"]["result"]:
-    sym=r["symbol"]
-    price=r.get("regularMarketPrice","")
-    items.append(f"{sym} {price}")
-ticker=" | ".join(items)
-html=open("index.html").read()
-html=html.replace("Loading market data...",ticker)
-open("index.html","w").write(html)
-EOF
+          TICKER=$(jq -r '.quoteResponse.result[] | "\(.symbol) \(.regularMarketPrice)"' data.json | paste -sd " | " -)
+          sed -i "s|Loading market data...|$TICKER|g" index.html
 
-      - name: Commit update
+      - name: Commit changes
         run: |
           git config --global user.name "github-actions"
           git config --global user.email "actions@github.com"
           git add index.html
-          git commit -m "Update ticker" || echo "No changes"
+          git commit -m "Update ticker data" || echo "No changes"
           git push
