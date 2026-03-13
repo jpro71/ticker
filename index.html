@@ -7,22 +7,45 @@ body{
 margin:0;
 background:black;
 color:white;
-font-family:Arial;
-font-size:26px;
+font-family:Arial, Helvetica, sans-serif;
+font-size:32px;
 overflow:hidden;
 }
 
+/* Ticker container */
 #ticker{
 white-space:nowrap;
 position:absolute;
 left:100%;
-animation:ticker 60s linear infinite;
+padding:10px 0;
+letter-spacing:1px;
+
+/* Speed control (lower number = faster) */
+animation:ticker 35s linear infinite;
 }
 
+/* Smooth scroll */
 @keyframes ticker{
 0% { left:100%; }
 100% { left:-100%; }
 }
+
+/* Optional: style for gains and losses */
+.up{
+color:#00ff7f;
+font-weight:bold;
+}
+
+.down{
+color:#ff4d4d;
+font-weight:bold;
+}
+
+.separator{
+color:#888;
+padding:0 25px;
+}
+
 </style>
 
 </head>
@@ -30,10 +53,42 @@ animation:ticker 60s linear infinite;
 <body>
 
 <div id="ticker">
-S&P 500 ▲ 5230 | NASDAQ ▲ 16350 | DOW ▲ 39210 |
-AAPL ▲ 182.33 | NVDA ▲ 876.21 | TSLA ▼ 174.02 |
-AMZN ▲ 184.15 | MSFT ▲ 420.87 | META ▲ 505.22 |
-GOOGL ▲ 176.55 | NFLX ▲ 640.10 | COIN ▲ 238.12
+
+<span class="up">S&P 500 ▲ 5230</span>
+<span class="separator">|</span>
+
+<span class="up">NASDAQ ▲ 16350</span>
+<span class="separator">|</span>
+
+<span class="up">DOW ▲ 39210</span>
+<span class="separator">|</span>
+
+<span class="up">AAPL ▲ 182.33</span>
+<span class="separator">|</span>
+
+<span class="up">NVDA ▲ 876.21</span>
+<span class="separator">|</span>
+
+<span class="down">TSLA ▼ 174.02</span>
+<span class="separator">|</span>
+
+<span class="up">AMZN ▲ 184.15</span>
+<span class="separator">|</span>
+
+<span class="up">MSFT ▲ 420.87</span>
+<span class="separator">|</span>
+
+<span class="up">META ▲ 505.22</span>
+<span class="separator">|</span>
+
+<span class="up">GOOGL ▲ 176.55</span>
+<span class="separator">|</span>
+
+<span class="up">NFLX ▲ 640.10</span>
+<span class="separator">|</span>
+
+<span class="up">COIN ▲ 238.12</span>
+
 </div>
 
 </body>
